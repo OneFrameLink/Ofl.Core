@@ -1,0 +1,29 @@
+{
+    "version": "1.0.0",
+    "description": "Core utility library for the One Frame Link project.",
+    "authors": ["Nicholas Paldino"],
+
+    "dependencies": {
+        "NETStandard.Library": "1.6.0",
+        "Microsoft.Extensions.Configuration": "1.0.0",
+        "Microsoft.Extensions.Configuration.Binder": "1.0.0",
+        "System.Dynamic.Runtime": "4.0.11",
+        "System.Reactive.Core": "3.0.0",
+        "Newtonsoft.Json": "9.0.1",
+        "System.Interactive.Async": "3.0.0",
+        "Nito.AsyncEx.Context": "1.0.4",
+        "Nito.AsyncEx.Coordination": "1.0.2"
+    },
+
+    "frameworks": {
+        "netstandard1.6": {
+        }
+    },
+
+    "buildOptions": {
+        "warningsAsErrors": true,
+        "compile": [
+            "../SharedAssemblyInfo.cs"
+        ]
+    }
+}

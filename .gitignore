@@ -3,3 +3,7 @@
 ################################################################################
 
 /.vs
+/Ofl.Core/bin
+/Ofl.Core/obj
+/Ofl.Core/Ofl.Core.xproj.user
+/Ofl.Core/project.lock.json
