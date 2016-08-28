@@ -1,7 +1,16 @@
 {
     "version": "1.0.0",
     "description": "Core utility library for the One Frame Link project.",
-    "authors": ["Nicholas Paldino"],
+    "authors": [ "Nicholas Paldino" ],
+
+    "packOptions": {
+        "projectUrl": "https://github.com/OneFrameLink/Ofl.Core",
+        "licenseUrl": "https://raw.githubusercontent.com/OneFrameLink/Ofl.Core/master/LICENSE",
+        "repository": {
+            "type": "git",
+            "url": "https://github.com/OneFrameLink/Ofl.Core.git"
+        }
+    },
 
     "dependencies": {
         "NETStandard.Library": "1.6.0",
