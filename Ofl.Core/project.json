@@ -12,5 +12,10 @@
   },
   "frameworks": {
     "netstandard1.3": {}
+  },
+  "buildOptions": {
+    "compile": [
+      "../GlobalAssemblyInfo.cs"
+    ]
   }
 }
