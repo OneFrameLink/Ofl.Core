@@ -15,7 +15,7 @@
   },
   "buildOptions": {
     "compile": [
-      "../GlobalAssemblyInfo.cs"
+      "../_shared/GlobalAssemblyInfo.cs"
     ]
   }
 }
