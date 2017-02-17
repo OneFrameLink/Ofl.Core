@@ -24,11 +24,21 @@ install:
 configuration: Release
 
 #--------------------------------------------------
+# Assembly version patching
+#-------------------------------------------------- 
+assembly_info:
+  patch: true
+  file: GlobalAssemblyInfo.*
+  assembly_version: "1.0.{build}"
+  assembly_file_version: "{version}"
+  assembly_informational_version: "{version}"
+
+#--------------------------------------------------
 # Build hooks - before
 #--------------------------------------------------
 before_build:
   - nuget restore -verbosity detailed
- 
+  
 #--------------------------------------------------
 # Build hooks - after
 #--------------------------------------------------

@@ -1,6 +1,6 @@
 ﻿{
   "authors": [ "One Frame Link" ],
-  "description": "General utilities and extensions used throughout the One Frame Link project.",
+  "description": "General utilities provided by One Frame Link.",
   "supports": {},
   "dependencies": {
     "AngleSharp": "0.9.9",
