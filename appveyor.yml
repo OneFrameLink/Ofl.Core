@@ -1,5 +1,7 @@
 #--------------------------------------------------
-# Version
+# Version:
+# NOTE: UPDATE THIS TO UPDATE ASSEMBLY AND NUGET 
+# VERSIONS!!!!!!!!
 #--------------------------------------------------
 version: '1.0.{build}'
 
@@ -29,7 +31,7 @@ configuration: Release
 assembly_info:
   patch: true
   file: '**\GlobalAssemblyInfo.cs'
-  assembly_version: "1.0.{build}"
+  assembly_version: "{version}"
   assembly_file_version: "{version}"
   assembly_informational_version: "{version}"
 
