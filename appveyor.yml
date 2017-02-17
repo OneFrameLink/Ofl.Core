@@ -34,5 +34,5 @@ configuration: Release
 # artifacts configuration
 #--------------------------------------------------
 artifacts:  
-- path: **\*.nupkg
+  - path: **\*.nupkg
   name: NuGet
