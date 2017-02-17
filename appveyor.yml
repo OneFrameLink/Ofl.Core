@@ -6,10 +6,10 @@ before_build:
   # Nuget restore
   - nuget restore
  
- # After cloning repository.
- install:
-   - git submodule init
-   - git submodule update
+# After cloning repository.
+install:
+  - git submodule init
+  - git submodule update
 
 pull_requests:  
   do_not_increment_build_number: true
