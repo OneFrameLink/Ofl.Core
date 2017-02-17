@@ -1,6 +1,10 @@
 # version format
 version: '{build}'  
 
+# before build
+before_build:
+  - nuget restore
+
 pull_requests:  
   do_not_increment_build_number: true
 
