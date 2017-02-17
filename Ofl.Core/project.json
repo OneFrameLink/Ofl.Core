@@ -1,4 +1,6 @@
 ﻿{
+  "authors": [ "One Frame Link" ],
+  "description": "General utilities and extensions used throughout the One Frame Link project.",
   "supports": {},
   "dependencies": {
     "AngleSharp": "0.9.9",
@@ -12,5 +14,22 @@
   },
   "frameworks": {
     "netstandard1.3": {}
+  },
+  "packOptions": {
+    "owners": [ "One Frame Link" ],
+
+    "summary": "General utilities and extensions used throughout the One Frame Link project.",
+
+    "projectUrl": "https://github.com/OneFrameLink/Ofl.Core",
+
+    "iconUrl": "https://raw.githubusercontent.com/OneFrameLink/Ofl._Shared/master/OneFrameLink_225x225.png",
+
+    "licenseUrl": "https://raw.githubusercontent.com/OneFrameLink/Ofl._Shared/master/LICENSE.md",
+    "requireLicenseAcceptance": true,
+
+    "repository": {
+      "type": "git",
+      "url": "https://github.com/OneFrameLink/Ofl.Core.git"
+    }
   }
 }

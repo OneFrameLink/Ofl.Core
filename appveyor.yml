@@ -33,7 +33,7 @@ before_build:
 # Build hooks - after
 #--------------------------------------------------
 after_build:
-   - nuget pack project.nuspec
+   - nuget pack Ofl.Core\Ofl.Core.csproj
  
 #--------------------------------------------------
 # NuGet config

@@ -5,8 +5,11 @@ using System.Runtime.InteropServices;
 // set of attributes. Change these attribute values to modify the information
 // associated with an assembly.
 [assembly: AssemblyProduct("Ofl.Core")]
-[assembly: AssemblyTitle("Ofl.Core")]
-[assembly: AssemblyDescription("Core libraries used in the One Frame Link project.")]
+[assembly: AssemblyDescription("General utilities and extensions used throughout the One Frame Link project.")]
 
 // The following GUID is for the ID of the typelib if this project is exposed to COM
 [assembly: Guid("c5cf3070-8506-4d8f-88c5-73a377966ef5")]
+
+// Assembly version.
+[assembly: AssemblyVersion("1.0.2")]
+[assembly: AssemblyInformationalVersion("1.0.1")]
