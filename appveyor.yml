@@ -35,4 +35,4 @@ configuration: Release
 #--------------------------------------------------
 artifacts:  
   - path: .\**\*.nupkg
-  name: NuGet
+  - name: NuGet
