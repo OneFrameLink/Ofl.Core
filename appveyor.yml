@@ -4,7 +4,7 @@ version: '{build}'
 # before build
 before_build:
   # Nuget restore
-  - nuget restore
+  - nuget restore -verbosity detailed
  
 # After cloning repository.
 # Need to bring in submodules for shared items (i.e. GlobalAssemblyInfo.cs, etc.)
