@@ -42,8 +42,11 @@ before_build:
 #--------------------------------------------------
 # Build hooks - after
 #--------------------------------------------------
-after_build:
-   - nuget pack Ofl.Core\Ofl.Core.csproj -verbosity detailed
+#after_build:
+#   - nuget pack Ofl.Core\Ofl.Core.csproj -verbosity detailed
+build:
+  publish_nuget: true
+  verbosity: detailed
  
 #--------------------------------------------------
 # NuGet config
@@ -59,3 +62,13 @@ nuget:
 artifacts:  
   - path: '**\*.nupkg'
     name: NuGet
+
+#--------------------------------------------------
+# Deploy NuGet
+#--------------------------------------------------
+deploy:
+  provider: NuGet
+  api_key:
+    secure: m49OJ7+Jdt9an3jPcTukHA==
+  skip_symbols: false
+  artifact: /.*\.nupkg/
