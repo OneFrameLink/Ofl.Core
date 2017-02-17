@@ -11,11 +11,6 @@
     "System.Reactive.Core": "3.1.1"
   },
   "frameworks": {
-    "netstandard1.4": {}
-  },
-  "buildOptions": {
-    "compile": [
-      "../_shared/GlobalAssemblyInfo.cs"
-    ]
+    "netstandard1.3": {}
   }
 }
