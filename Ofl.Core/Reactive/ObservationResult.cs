@@ -89,7 +89,7 @@ namespace Ofl.Core.Reactive
         /// <value>True if the observation was canceled, false otherwise.</value>
         ///
         //////////////////////////////////////////////////
-        public bool IsCanceled { get; private set; }
+        public bool IsCanceled { get; }
 
         //////////////////////////////////////////////////
         ///
@@ -101,7 +101,7 @@ namespace Ofl.Core.Reactive
         /// to end, null otherwise.</value>
         ///
         //////////////////////////////////////////////////
-        public Exception Exception { get; private set; }
+        public Exception Exception { get; }
 
         //////////////////////////////////////////////////
         ///
@@ -111,7 +111,7 @@ namespace Ofl.Core.Reactive
         /// <value>The number of observations that were made.</value>
         ///
         //////////////////////////////////////////////////
-        public int Observations { get; private set; }
+        public int Observations { get; }
 
         #endregion
     }

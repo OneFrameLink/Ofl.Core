@@ -1,38 +1,21 @@
-{
-    "version": "1.0.0",
-    "description": "Core utility library for the One Frame Link project.",
-    "authors": [ "Nicholas Paldino" ],
-
-    "packOptions": {
-        "projectUrl": "https://github.com/OneFrameLink/Ofl.Core",
-        "licenseUrl": "https://raw.githubusercontent.com/OneFrameLink/Ofl.Core/master/LICENSE",
-        "repository": {
-            "type": "git",
-            "url": "https://github.com/OneFrameLink/Ofl.Core.git"
-        }
-    },
-
-    "dependencies": {
-        "NETStandard.Library": "1.6.0",
-        "Microsoft.Extensions.Configuration": "1.0.0",
-        "Microsoft.Extensions.Configuration.Binder": "1.0.0",
-        "System.Dynamic.Runtime": "4.0.11",
-        "System.Reactive.Core": "3.0.0",
-        "Newtonsoft.Json": "9.0.1",
-        "System.Interactive.Async": "3.0.0",
-        "Nito.AsyncEx.Context": "1.0.4",
-        "Nito.AsyncEx.Coordination": "1.0.2"
-    },
-
-    "frameworks": {
-        "netstandard1.6": {
-        }
-    },
-
-    "buildOptions": {
-        "warningsAsErrors": true,
-        "compile": [
-            "../SharedAssemblyInfo.cs"
-        ]
-    }
+﻿{
+  "supports": {},
+  "dependencies": {
+    "AngleSharp": "0.9.9",
+    "Microsoft.NETCore.Portable.Compatibility": "1.0.1",
+    "NETStandard.Library": "1.6.0",
+    "Newtonsoft.Json": "9.0.1",
+    "Nito.AsyncEx.Context": "1.1.0",
+    "Nito.AsyncEx.Coordination": "1.0.2",
+    "System.Interactive.Async": "3.1.1",
+    "System.Reactive.Core": "3.1.1"
+  },
+  "frameworks": {
+    "netstandard1.4": {}
+  },
+  "buildOptions": {
+    "compile": [
+      "../GlobalAssemblyInfo.cs"
+    ]
+  }
 }

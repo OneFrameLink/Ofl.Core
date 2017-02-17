@@ -246,8 +246,10 @@ namespace Ofl.Core
             // Validate parameters.
             if (!type.GetTypeInfo().IsEnum) throw new ArgumentException("The type parameter must be an enumeration.", nameof(type));
 
-            // Cycle through the fields.
-            return type.GetTypeInfo().GetFields(BindingFlags.Static | BindingFlags.Public | BindingFlags.NonPublic);
+            // Filter the fields.
+            // Note: Used to be 
+            // GetFields(BindingFlags.Static | BindingFlags.Public | BindingFlags.NonPublic);
+            return type.GetTypeInfo().DeclaredFields.Where(f => f.IsStatic);
         }
 
 

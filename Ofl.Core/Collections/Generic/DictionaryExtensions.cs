@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Ofl.Core.Linq;
+using System.Collections.ObjectModel;
 
 namespace Ofl.Core.Collections.Generic
 {
@@ -194,6 +195,16 @@ namespace Ofl.Core.Collections.Generic
 
             // Return the value.
             return value;
+        }
+
+        public static ReadOnlyDictionary<TKey, TValue> WrapInReadOnlyDictionary<TKey, TValue>(
+            this IDictionary<TKey, TValue> dictionary)
+        {
+            // Validate parameters.
+            if (dictionary == null) throw new ArgumentNullException(nameof(dictionary));
+
+            // Wrap and return.
+            return new ReadOnlyDictionary<TKey, TValue>(dictionary);
         }
     }
 }

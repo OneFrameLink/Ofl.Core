@@ -532,6 +532,12 @@ namespace Ofl.Core.Linq
             return source.Select((t, i) => new KeyValuePair<int, T>(i, t));
         }
 
+        public static IEnumerable<KeyValuePair<int, T>?> ToNullableIndexedSequence<T>(this IEnumerable<T> source)
+        {
+            // Return the sequence, nulled out.
+            return source.ToIndexedSequence().Select(p => new KeyValuePair<int, T>?(p));
+        }
+
         //////////////////////////////////////////////////
         ///
         /// <author>Nicholas Paldino</author>
@@ -545,6 +551,15 @@ namespace Ofl.Core.Linq
         {
             // Call Do with an empty action.
             source.Do(t => { });
+        }
+
+        public static HashSet<T> ToHashSet<T>(this IEnumerable<T> source)
+        {
+            // Validate parameters.
+            if (source == null) throw new ArgumentNullException(nameof(source));
+
+            // Call the overload.
+            return source.ToHashSet(t => t);
         }
 
         //////////////////////////////////////////////////
@@ -849,7 +864,32 @@ namespace Ofl.Core.Linq
             if (keySelector == null) throw new ArgumentNullException(nameof(keySelector));
 
             // Call the overload.
-            return source.ToReadOnlyDictionary(keySelector, t => t, EqualityComparer<TKey>.Default);
+            return source.ToReadOnlyDictionary(keySelector, EqualityComparer<TKey>.Default);
+        }
+
+        public static IReadOnlyDictionary<TKey, TSource> ToReadOnlyDictionary<TSource, TKey>(
+            this IEnumerable<TSource> source, Func<TSource, TKey> keySelector, IEqualityComparer<TKey> comparer)
+        {
+            // Validate parameters.
+            if (source == null) throw new ArgumentNullException(nameof(source));
+            if (keySelector == null) throw new ArgumentNullException(nameof(keySelector));
+            if (comparer == null) throw new ArgumentNullException(nameof(comparer));
+
+            // Call the overload.
+            return source.ToReadOnlyDictionary(keySelector, t => t, comparer);
+        }
+
+        public static IReadOnlyDictionary<TKey, TValue> ToReadOnlyDictionary<TSource, TKey, TValue>(
+            this IEnumerable<TSource> source, Func<TSource, TKey> keySelector, Func<TSource, TValue> elementSelector)
+        {
+            // Validate parameters.
+            if (source == null) throw new ArgumentNullException(nameof(source));
+            if (keySelector == null) throw new ArgumentNullException(nameof(keySelector));
+            if (elementSelector == null) throw new ArgumentNullException(nameof(elementSelector));
+
+            // Call the overload.
+            return source.ToReadOnlyDictionary(keySelector, elementSelector, EqualityComparer<TKey>.Default);
+
         }
 
         public static IReadOnlyDictionary<TKey, TValue> ToReadOnlyDictionary<TSource, TKey, TValue>(
@@ -864,6 +904,57 @@ namespace Ofl.Core.Linq
 
             // Create and return.
             return new ReadOnlyDictionary<TKey, TValue>(source.ToDictionary(keySelector, elementSelector, comparer));
+        }
+
+        public static IReadOnlyCollection<T> EmptyReadOnlyCollection<T>()
+        {
+            // Return an empty collection.
+            return new ReadOnlyCollection<T>(new T[0]);
+        }
+
+        public static IEnumerable<T> Safeguard<T>(this IEnumerable<T> source)
+        {
+            // If source is null, return empty, otherwise, source.
+            return source ?? Enumerable.Empty<T>();
+        }
+
+        public static IEnumerable<T> AddRange<T>(this IEnumerable<T> source, IEnumerable<T> collection)
+        {
+            // Validate parameters.
+            if (source == null) throw new ArgumentNullException(nameof(source));
+            if (collection == null) throw new ArgumentNullException(nameof(collection));
+
+            // Sniff.  List<T> first.
+            var listSource = source as List<T>;
+
+            // If not null, add range.
+            if (listSource != null)
+            {
+                // Add the range and return.
+                listSource.AddRange(collection);
+                return source;
+            }
+
+            // Check for collection.
+            var collectionSource = source as ICollection<T>;
+
+            // If the collection is null, then just concat the enumerables.
+            if (collectionSource == null) return source.Concat(collection);
+
+            // Add all the items to the collection.
+            collection.Do(t => collectionSource.Add(t));
+
+            // Return the source.
+            return source;
+        }
+
+        public static IEnumerable<T> Append<T>(this IEnumerable<T> source, T item)
+        {
+            // Validate parameters.
+            if (source == null) throw new ArgumentNullException(nameof(source));
+
+            // Append the item.  Concat from.
+            return source.Concat(From(item));
         }
     }
 }

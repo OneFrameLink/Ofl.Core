@@ -18,7 +18,7 @@ namespace Ofl.Core.Reflection
             if (propertyToRemove == null) throw new ArgumentNullException(nameof(propertyToRemove));
 
             // Get the type.
-            Type type = typeof(T);
+            TypeInfo type = typeof(T).GetTypeInfo();
 
             // Is it a member expression?
             var member = propertyToRemove.Body as MemberExpression;
@@ -37,7 +37,7 @@ namespace Ofl.Core.Reflection
                     propertyToRemove));
 
             // If not part of the type.
-            if (!type.GetTypeInfo().IsAssignableFrom(type))
+            if (!type.IsAssignableFrom(type))
                 throw new ArgumentException(string.Format(CultureInfo.CurrentCulture,
                     "Expresion \"{0}\" refers to a property that is not from type {1}.", propertyToRemove, type));
 
