@@ -39,6 +39,9 @@
     <!-- A reference to the entire .NET Framework is automatically included -->
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="..\_shared\GlobalAssemblyInfo.cs">
+      <Link>GlobalAssemblyInfo.cs</Link>
+    </Compile>
     <Compile Include="BooleanExtensions.cs" />
     <Compile Include="Collections\Generic\AppendedReadOnlyCollection.cs" />
     <Compile Include="Collections\Generic\AsyncEnumerable.cs" />
