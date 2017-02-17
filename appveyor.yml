@@ -33,7 +33,7 @@ before_build:
 # Build hooks - after
 #--------------------------------------------------
 after_build:
-   - nuget pack Ofl.Core\Ofl.Core.csproj -verbosity detailed -version $env:appveyor_build_version
+   - nuget pack Ofl.Core\Ofl.Core.csproj -verbosity detailed -version %APPVEYOR_BUILD_VERSION%
  
 #--------------------------------------------------
 # NuGet config
