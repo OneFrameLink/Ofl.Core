@@ -35,12 +35,15 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <None Include="..\project.nuspec">
+      <Link>[common]\project.nuspec</Link>
+    </None>
     <None Include="project.json" />
     <!-- A reference to the entire .NET Framework is automatically included -->
   </ItemGroup>
   <ItemGroup>
     <Compile Include="..\_shared\GlobalAssemblyInfo.cs">
-      <Link>GlobalAssemblyInfo.cs</Link>
+      <Link>[common]\GlobalAssemblyInfo.cs</Link>
     </Compile>
     <Compile Include="BooleanExtensions.cs" />
     <Compile Include="Collections\Generic\AppendedReadOnlyCollection.cs" />

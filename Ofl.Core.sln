@@ -5,13 +5,6 @@ VisualStudioVersion = 14.0.25420.1
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Ofl.Core", "Ofl.Core\Ofl.Core.csproj", "{D18D5C84-1E92-446C-8CBB-2A4714446553}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Source", "Source", "{5BA159FC-6B0C-4DA0-8F1F-FE7C240DD3F8}"
-EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "NuGet", "NuGet", "{E2D87965-9592-4493-B1B5-903590102FB0}"
-	ProjectSection(SolutionItems) = preProject
-		Ofl.Core\project.nuspec = Ofl.Core\project.nuspec
-	EndProjectSection
-EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -25,8 +18,5 @@ Global
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
-	EndGlobalSection
-	GlobalSection(NestedProjects) = preSolution
-		{D18D5C84-1E92-446C-8CBB-2A4714446553} = {5BA159FC-6B0C-4DA0-8F1F-FE7C240DD3F8}
 	EndGlobalSection
 EndGlobal
