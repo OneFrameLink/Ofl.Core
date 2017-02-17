@@ -1,3 +1,27 @@
-version: 1.0.{build}
-build:
-  verbosity: minimal
+# version format
+version: '{build}'  
+
+pull_requests:  
+  do_not_increment_build_number: true
+
+# branches to build
+branches:
+  # whitelist
+  only:
+    - master
+
+# Automatically register private account and/or project AppVeyor NuGet feeds.
+nuget:
+  # disable publishing of .nupkg artifacts to
+  # account/project feeds for pull request builds
+  disable_publish_on_pr: true
+
+# build Configuration, i.e. Debug, Release, etc.
+configuration: Release
+  
+#---------------------------------#
+#      artifacts configuration    #
+#---------------------------------#
+artifacts:  
+- path: .\artifacts\**\*.nupkg
+  name: NuGet
