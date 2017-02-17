@@ -1,37 +1,50 @@
-# Version format
+#--------------------------------------------------
+# Version
+#--------------------------------------------------
 version: '{build}'  
 
-# before build
-before_build:
-  # Nuget restore
-  - nuget restore -verbosity detailed
- 
-# After cloning repository.
-# Need to bring in submodules for shared items (i.e. GlobalAssemblyInfo.cs, etc.)
-install:
-  - git submodule init
-  - git submodule update
-
-pull_requests:  
-  do_not_increment_build_number: true
-
-# Branches to build
+#--------------------------------------------------
+# Branch whitelist
+#--------------------------------------------------
 branches:
   # Whitelist
   only:
     - master
 
-# Automatically register private account and/or project AppVeyor NuGet feeds.
+#--------------------------------------------------
+# After cloning repository
+#--------------------------------------------------
+install:
+  - git submodule init
+  - git submodule update
+
+#--------------------------------------------------
+# Build configuration
+#--------------------------------------------------
+configuration: Release
+
+#--------------------------------------------------
+# Build hooks - before
+#--------------------------------------------------
+before_build:
+  - nuget restore -verbosity detailed
+ 
+#--------------------------------------------------
+# Build hooks - after
+#--------------------------------------------------
+ after_build:
+   - nuget pack
+ 
+#--------------------------------------------------
+# NuGet config
+#--------------------------------------------------
 nuget:
   # disable publishing of .nupkg artifacts to
   # account/project feeds for pull request builds
   disable_publish_on_pr: true
-
-# Build Configuration, i.e. Debug, Release, etc.
-configuration: Release
   
 #--------------------------------------------------
-# artifacts configuration
+# Artifact configuration
 #--------------------------------------------------
 artifacts:  
   - path: '**\*.nupkg'
