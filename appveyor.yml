@@ -33,7 +33,7 @@ before_build:
 # Build hooks - after
 #--------------------------------------------------
 after_build:
-   - nuget pack
+   - nuget pack project.nuspec
  
 #--------------------------------------------------
 # NuGet config
