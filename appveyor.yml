@@ -1,16 +1,22 @@
-# version format
+# Version format
 version: '{build}'  
 
 # before build
 before_build:
+  # Nuget restore
   - nuget restore
+ 
+ # After cloning repository.
+ install:
+   - git submodule init
+   - git submodule update
 
 pull_requests:  
   do_not_increment_build_number: true
 
-# branches to build
+# Branches to build
 branches:
-  # whitelist
+  # Whitelist
   only:
     - master
 
@@ -20,7 +26,7 @@ nuget:
   # account/project feeds for pull request builds
   disable_publish_on_pr: true
 
-# build Configuration, i.e. Debug, Release, etc.
+# Build Configuration, i.e. Debug, Release, etc.
 configuration: Release
   
 #---------------------------------#
