@@ -33,7 +33,7 @@ before_build:
 # Build hooks - after
 #--------------------------------------------------
 after_build:
-   - nuget pack {appveyor_project_name}\{appveyor_project_name}.nuspec
+   - nuget pack (appveyor_project_name)\(appveyor_project_name).nuspec
  
 #--------------------------------------------------
 # NuGet config
