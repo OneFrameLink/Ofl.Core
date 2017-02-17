@@ -42,11 +42,8 @@ before_build:
 #--------------------------------------------------
 # Build hooks - after
 #--------------------------------------------------
-#after_build:
-#   - nuget pack Ofl.Core\Ofl.Core.csproj -verbosity detailed
-build:
-  publish_nuget: true
-  verbosity: detailed
+after_build:
+   - nuget pack Ofl.Core\Ofl.Core.csproj -verbosity detailed
  
 #--------------------------------------------------
 # NuGet config
@@ -69,6 +66,5 @@ artifacts:
 deploy:
   provider: NuGet
   api_key:
-    secure: m49OJ7+Jdt9an3jPcTukHA==
-  skip_symbols: false
+    secure: AhNvfOiNoCPXb1PnRG18sOfxSmsS+q4iNJ30PsuABsau99QGZ46C4nhSRSoUZehg
   artifact: /.*\.nupkg/
