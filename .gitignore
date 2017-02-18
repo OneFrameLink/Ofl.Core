@@ -1,9 +1,5 @@
-﻿################################################################################
-# This .gitignore file was automatically created by Microsoft(R) Visual Studio.
-################################################################################
-
-/.vs
-/Ofl.Core/bin
-/Ofl.Core/obj
-/Ofl.Core/Ofl.Core.xproj.user
-/Ofl.Core/project.lock.json
+﻿**/.vs
+**/bin
+**/obj
+**/*.xproj.user
+**/project.lock.json
