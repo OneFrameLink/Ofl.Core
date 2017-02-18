@@ -45,7 +45,7 @@ before_build:
 # Build hooks - after
 #--------------------------------------------------
 after_build:
-   - nuget pack Ofl.Core\Ofl.Core.csproj -verbosity detailed
+   - nuget pack %APPVEYOR_PROJECT_NAME%\%APPVEYOR_PROJECT_NAME%.csproj -verbosity detailed
  
 #--------------------------------------------------
 # NuGet config
@@ -70,3 +70,11 @@ deploy:
   api_key:
     secure: AhNvfOiNoCPXb1PnRG18sOfxSmsS+q4iNJ30PsuABsau99QGZ46C4nhSRSoUZehg
   artifact: /.*\.nupkg/
+  
+#--------------------------------------------------
+# Notifications
+#--------------------------------------------------
+notifications:
+  - provider: Slack
+    incoming_webhook:
+      secure: Y4pw1Q3aqUk/4aVYHN5R3u5Zca5ijyVi6tRAVahXhlFXFCZTwpJLrEwHsRGoqQGIkUUpAOvlOpVRNoXBKJhfwkHybRotzfi7SbbB8Rb+67I= 
