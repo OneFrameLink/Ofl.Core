@@ -33,6 +33,20 @@ namespace Ofl.Core.Net.Http
             return Task.FromResult(JsonSerializerSettings);
         }
 
+        protected virtual Task<HttpResponseMessage> ProcessHttpResponseMessageAsync(HttpResponseMessage httpResponseMessage, 
+            JsonSerializerSettings jsonSerializerSettings, CancellationToken cancellationToken)
+        {
+            // Validate parameters.
+            if (httpResponseMessage == null) throw new ArgumentNullException(nameof(httpResponseMessage));
+            if (jsonSerializerSettings == null) throw new ArgumentNullException(nameof(jsonSerializerSettings));
+
+            // Ensure the status code.
+            httpResponseMessage.EnsureSuccessStatusCode();
+
+            // Return the response.
+            return Task.FromResult(httpResponseMessage);
+        }
+
         protected override async Task<T> GetAsync<T>(string url, CancellationToken cancellationToken)
         {
             // Validate parameters.
@@ -105,7 +119,7 @@ namespace Ofl.Core.Net.Http
             if (jsonSerializerSettings == null) throw new ArgumentNullException(nameof(jsonSerializerSettings));
 
             // Process the response.
-            using (HttpResponseMessage response = await ProcessHttpResponseMessageAsync(httpResponseMessage, cancellationToken).
+            using (HttpResponseMessage response = await ProcessHttpResponseMessageAsync(httpResponseMessage, jsonSerializerSettings, cancellationToken).
                 ConfigureAwait(false))
                 // Deserialize.
                 return await response.ToObjectAsync<TResponse>(jsonSerializerSettings, cancellationToken).ConfigureAwait(false);
