@@ -85,6 +85,19 @@ namespace Ofl.Core.Net.Http
         protected abstract Task<TResponse> PostAsync<TRequest, TResponse>(string url, TRequest request,
             CancellationToken cancellationToken);
 
+        protected virtual Task<HttpResponseMessage> ProcessHttpResponseMessageAsync(
+            HttpResponseMessage httpResponseMessage, CancellationToken cancellationToken)
+        {
+            // Validate parameters.
+            if (httpResponseMessage == null) throw new ArgumentNullException(nameof(httpResponseMessage));
+
+            // Ensure success.
+            httpResponseMessage.EnsureSuccessStatusCode();
+
+            // Return the message.
+            return Task.FromResult(httpResponseMessage);
+        }
+
         protected virtual async Task DeleteAsync(string url, CancellationToken cancellationToken)
         {
             // Validate parameters.

@@ -85,6 +85,7 @@
     <Compile Include="Net\Http\HttpMessageHandlerExtensions.cs" />
     <Compile Include="Net\Http\HttpRequestMessageExtensions.cs" />
     <Compile Include="Net\Http\HttpResponseMessageExtensions.cs" />
+    <Compile Include="Net\Http\InternalHttpResponseMessageExtensions.cs" />
     <Compile Include="Net\Http\JsonApiClient.cs" />
     <Compile Include="Net\Http\StreamExtensions.cs" />
     <Compile Include="Parameters\ParameterExtensions.cs" />
@@ -99,6 +100,7 @@
     <Compile Include="Serialization\Newtonsoft\Json\EnumCodeJsonConverter.cs" />
     <Compile Include="Serialization\Newtonsoft\Json\ExtendedCamelCaseNamingStrategy.cs" />
     <Compile Include="Serialization\Newtonsoft\Json\FormattedDateTimeJsonConverter.cs" />
+    <Compile Include="Serialization\Newtonsoft\Json\JsonSerializerExtensions.cs" />
     <Compile Include="Serialization\Newtonsoft\Json\MemberVisibilityContractResolverDecorator.cs" />
     <Compile Include="Serialization\Newtonsoft\Json\PascalCaseToLowerCaseWithUnderscoreContractResolver.cs" />
     <Compile Include="Serialization\Newtonsoft\Json\ReadOnlyJsonConverter.cs" />

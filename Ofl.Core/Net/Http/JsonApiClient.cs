@@ -46,9 +46,10 @@ namespace Ofl.Core.Net.Http
 
             // Create the HttpClient.
             using (var client = await CreateHttpClientAsync(cancellationToken).ConfigureAwait(false))
-                // Get JSON now.
-                return await client.GetJsonAsync<T>(url, settings, cancellationToken).
-                    ConfigureAwait(false);
+            // Get the response.
+            using (HttpResponseMessage response = await client.GetAsync(url, cancellationToken).ConfigureAwait(false))
+                // Process the response.
+                return await ProcessResponseAsync<T>(response, settings, cancellationToken).ConfigureAwait(false);
         }
 
         protected override async Task<TResponse> PostAsync<TRequest, TResponse>(string url, TRequest request,
@@ -66,9 +67,11 @@ namespace Ofl.Core.Net.Http
 
             // Create the HttpClient.
             using (var client = await CreateHttpClientAsync(cancellationToken).ConfigureAwait(false))
-                // Get JSON now.
-                return await client.PostJsonAsync<TRequest, TResponse>(url, settings, request, cancellationToken).
-                    ConfigureAwait(false);
+            // Get the response.
+            using (HttpResponseMessage response = await client.PostJsonForHttpResponseMessageAsync(
+                url, settings, request, cancellationToken).ConfigureAwait(false))
+                // Process the response.
+                return await ProcessResponseAsync<TResponse>(response, settings, cancellationToken).ConfigureAwait(false);
         }
 
         protected override async Task<TResponse> DeleteAsync<TResponse>(string url, CancellationToken cancellationToken)
@@ -84,9 +87,28 @@ namespace Ofl.Core.Net.Http
 
             // Create the HttpClient.
             using (var client = await CreateHttpClientAsync(cancellationToken).ConfigureAwait(false))
-                // Get JSON now.
-                return await client.DeleteJsonAsync<TResponse>(url, settings, cancellationToken).
-                    ConfigureAwait(false);
+            // Get the response.
+            using (HttpResponseMessage response = await client.DeleteAsync(url, cancellationToken).ConfigureAwait(false))
+                // Process the response.
+                return await ProcessResponseAsync<TResponse>(response, settings, cancellationToken).ConfigureAwait(false);
+        }
+
+        #endregion
+
+        #region Helpers
+
+        private async Task<TResponse> ProcessResponseAsync<TResponse>(HttpResponseMessage httpResponseMessage,
+            JsonSerializerSettings jsonSerializerSettings, CancellationToken cancellationToken)
+        {
+            // Validate parameters.
+            if (httpResponseMessage == null) throw new ArgumentNullException(nameof(httpResponseMessage));
+            if (jsonSerializerSettings == null) throw new ArgumentNullException(nameof(jsonSerializerSettings));
+
+            // Process the response.
+            using (HttpResponseMessage response = await ProcessHttpResponseMessageAsync(httpResponseMessage, cancellationToken).
+                ConfigureAwait(false))
+                // Deserialize.
+                return await response.ToObjectAsync<TResponse>(jsonSerializerSettings, cancellationToken).ConfigureAwait(false);
         }
 
         #endregion

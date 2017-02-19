@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Globalization;
 using System.IO;
 using System.Net.Http;
 using System.Reactive.Disposables;
@@ -8,11 +7,14 @@ using System.Threading;
 using System.Threading.Tasks;
 using Ofl.Core.IO;
 using Newtonsoft.Json;
+using Ofl.Core.Serialization.Newtonsoft.Json;
 
 namespace Ofl.Core.Net.Http
 {
     public static class HttpClientExtensions
     {
+        #region GetStreamAsync
+
         public static Task<Stream> GetStreamAsync(this HttpClient httpClient,
             string requestUri, CancellationToken cancellationToken)
         {
@@ -91,6 +93,10 @@ namespace Ofl.Core.Net.Http
             }
         }
 
+        #endregion
+
+        #region GetJsonAsync
+
         public static Task<T> GetJsonAsync<T>(this HttpClient httpClient, string uri,
             CancellationToken cancellationToken)
         {
@@ -125,14 +131,29 @@ namespace Ofl.Core.Net.Http
 
             // Get the message.
             using (HttpResponseMessage httpResponseMessage = await httpClient.GetAsync(uri, cancellationToken).ConfigureAwait(false))
-            // Get the stream.
-            using (Stream stream = await httpResponseMessage.Content.ReadAsStreamAsync().ConfigureAwait(false))
-            // Text reader on top of stream.
-            using (var streamReader = new StreamReader(stream))
-            // Create a JsonReader.
-            using (JsonReader jsonReader = new JsonTextReader(streamReader))
-                // Deserialize and return.
-                return jsonSerializer.Deserialize<T>(jsonReader);
+            {
+                // Ensure the status code.
+                httpResponseMessage.EnsureSuccessStatusCode();
+
+                // Return the object.
+                return await httpResponseMessage.ToObjectAsync<T>(jsonSerializer, cancellationToken).ConfigureAwait(false);
+            }
+        }
+
+        #endregion
+
+        #region PostJsonAsync
+
+        public static Task PostJsonAsync<TRequest>(this HttpClient httpClient, string uri,
+            TRequest request, CancellationToken cancellationToken)
+        {
+            // Validate parameters.
+            if (httpClient == null) throw new ArgumentNullException(nameof(httpClient));
+            if (string.IsNullOrWhiteSpace(uri)) throw new ArgumentNullException(nameof(uri));
+            if (request == null) throw new ArgumentNullException(nameof(request));
+
+            // Call the overload.
+            return httpClient.PostJsonAsync(uri, JsonSerializer.CreateDefault(), request, cancellationToken);
         }
 
         public static Task<TResult> PostJsonAsync<TRequest, TResult>(this HttpClient httpClient, string uri,
@@ -145,6 +166,20 @@ namespace Ofl.Core.Net.Http
 
             // Call the overload.
             return httpClient.PostJsonAsync<TRequest, TResult>(uri, JsonSerializer.CreateDefault(), request, cancellationToken);
+        }
+
+        public static Task PostJsonAsync<TRequest>(this HttpClient httpClient, string uri,
+            JsonSerializerSettings jsonSerializerSettings, TRequest request, CancellationToken cancellationToken)
+        {
+            // Validate parameters.
+            if (httpClient == null) throw new ArgumentNullException(nameof(httpClient));
+            if (string.IsNullOrWhiteSpace(uri)) throw new ArgumentNullException(nameof(uri));
+            if (jsonSerializerSettings == null) throw new ArgumentNullException(nameof(jsonSerializerSettings));
+            if (request == null) throw new ArgumentNullException(nameof(request));
+
+            // Call the overload.
+            return httpClient.PostJsonAsync(uri, JsonSerializer.Create(jsonSerializerSettings),
+                request, cancellationToken);
         }
 
         public static Task<TResponse> PostJsonAsync<TRequest, TResponse>(this HttpClient httpClient, string uri,
@@ -161,6 +196,22 @@ namespace Ofl.Core.Net.Http
                 request, cancellationToken);
         }
 
+        public static async Task PostJsonAsync<TRequest>(this HttpClient httpClient,
+            string uri, JsonSerializer jsonSerializer, TRequest request, CancellationToken cancellationToken)
+        {
+            // Validate parameters.
+            if (httpClient == null) throw new ArgumentNullException(nameof(httpClient));
+            if (string.IsNullOrWhiteSpace(uri)) throw new ArgumentNullException(nameof(uri));
+            if (jsonSerializer == null) throw new ArgumentNullException(nameof(jsonSerializer));
+            if (request == null) throw new ArgumentNullException(nameof(request));
+
+            // Get the message.
+            using (HttpResponseMessage httpResponseMessage = await httpClient.
+                PostJsonForHttpResponseMessageAsync(uri, jsonSerializer, request, cancellationToken).ConfigureAwait(false))
+                // Ensure the success code.
+                httpResponseMessage.EnsureSuccessStatusCode();
+        }
+
         public static async Task<TResponse> PostJsonAsync<TRequest, TResponse>(this HttpClient httpClient,
             string uri, JsonSerializer jsonSerializer, TRequest request, CancellationToken cancellationToken)
         {
@@ -170,37 +221,53 @@ namespace Ofl.Core.Net.Http
             if (jsonSerializer == null) throw new ArgumentNullException(nameof(jsonSerializer));
             if (request == null) throw new ArgumentNullException(nameof(request));
 
-            // The json.
-            string json;
-
-            // Create a StringWriter.
-            using (var stringWriter = new StringWriter(CultureInfo.InvariantCulture))
-            // Now a json writer.
-            using (var jsonWriter = new JsonTextWriter(stringWriter))
+            // Get the message.
+            using (HttpResponseMessage httpResponseMessage = await httpClient.
+                PostJsonForHttpResponseMessageAsync(uri, jsonSerializer, request, cancellationToken).ConfigureAwait(false))
             {
-                // Serialize.
-                jsonSerializer.Serialize(jsonWriter, request);
+                // Ensure the success code.
+                httpResponseMessage.EnsureSuccessStatusCode();
 
-                // Flush the writer.
-                jsonWriter.Flush();
-
-                // Write the json.
-                json = stringWriter.ToString();
+                // Return the object.
+                return await httpResponseMessage.ToObjectAsync<TResponse>(jsonSerializer, cancellationToken).ConfigureAwait(false);
             }
+        }
+
+        public static Task<HttpResponseMessage> PostJsonForHttpResponseMessageAsync<TRequest>(this HttpClient httpClient,
+            string uri, JsonSerializerSettings jsonSerializerSettings, TRequest request, CancellationToken cancellationToken)
+        {
+            // Validate parameters.
+            if (httpClient == null) throw new ArgumentNullException(nameof(httpClient));
+            if (string.IsNullOrWhiteSpace(uri)) throw new ArgumentNullException(nameof(uri));
+            if (jsonSerializerSettings == null) throw new ArgumentNullException(nameof(jsonSerializerSettings));
+            if (request == null) throw new ArgumentNullException(nameof(request));
+
+            // Call the overload.
+            return httpClient.PostJsonForHttpResponseMessageAsync(uri, JsonSerializer.Create(jsonSerializerSettings),
+                request, cancellationToken);
+        }
+
+        public static async Task<HttpResponseMessage> PostJsonForHttpResponseMessageAsync<TRequest>(this HttpClient httpClient,
+            string uri, JsonSerializer jsonSerializer, TRequest request, CancellationToken cancellationToken)
+        {
+            // Validate parameters.
+            if (httpClient == null) throw new ArgumentNullException(nameof(httpClient));
+            if (string.IsNullOrWhiteSpace(uri)) throw new ArgumentNullException(nameof(uri));
+            if (jsonSerializer == null) throw new ArgumentNullException(nameof(jsonSerializer));
+            if (request == null) throw new ArgumentNullException(nameof(request));
+
+            // The json.
+            string json = jsonSerializer.SerializeToString(request);
 
             // Create the content.
             using (HttpContent content = new StringContent(json, Encoding.UTF8, "application/json"))
-            // Get the message.
-            using (HttpResponseMessage httpResponseMessage = await httpClient.PostAsync(uri, content, cancellationToken).ConfigureAwait(false))
-            // Get the stream.
-            using (Stream stream = await httpResponseMessage.Content.ReadAsStreamAsync().ConfigureAwait(false))
-            // Text reader on top of stream.
-            using (var streamReader = new StreamReader(stream))
-            // Create a JsonReader.
-            using (JsonReader jsonReader = new JsonTextReader(streamReader))
-                // Deserialize and return.
-                return jsonSerializer.Deserialize<TResponse>(jsonReader);
+                // Post and return the message.
+                return await httpClient.PostAsync(uri, content, cancellationToken).ConfigureAwait(false);
         }
+
+        #endregion
+
+        #region DeleteAsync
 
         public static Task<TResult> DeleteJsonAsync<TResult>(this HttpClient httpClient, string uri,
             CancellationToken cancellationToken)
@@ -236,14 +303,16 @@ namespace Ofl.Core.Net.Http
 
             // Get the message.
             using (HttpResponseMessage httpResponseMessage = await httpClient.DeleteAsync(uri, cancellationToken).ConfigureAwait(false))
-            // Get the stream.
-            using (Stream stream = await httpResponseMessage.Content.ReadAsStreamAsync().ConfigureAwait(false))
-            // Text reader on top of stream.
-            using (var streamReader = new StreamReader(stream))
-            // Create a JsonReader.
-            using (JsonReader jsonReader = new JsonTextReader(streamReader))
-                // Deserialize and return.
-                return jsonSerializer.Deserialize<TResponse>(jsonReader);
+            {
+                // Ensure the response code.
+                httpResponseMessage.EnsureSuccessStatusCode();
+
+                // Deserialize the result.
+                return await httpResponseMessage.ToObjectAsync<TResponse>(jsonSerializer, cancellationToken).
+                    ConfigureAwait(false);
+            }
         }
+
+        #endregion
     }
 }
