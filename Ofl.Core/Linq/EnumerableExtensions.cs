@@ -633,6 +633,15 @@ namespace Ofl.Core.Linq
             return new HashSet<TKey>(source.Select(keySelector), comparer);
         }
 
+        public static IEnumerable<T> From<T>(params T[] items)
+        {
+            // Validate parameters.
+            if (items == null) throw new ArgumentNullException(nameof(items));
+
+            // Just return items.
+            return items;
+        }
+
         //////////////////////////////////////////////////
         ///
         /// <author>Nicholas Paldino</author>
