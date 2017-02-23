@@ -11,7 +11,7 @@ namespace Ofl.Core.Net.Http
     {
         #region Constructor
 
-        protected JsonApiClient(Func<HttpMessageHandler, bool, CancellationToken, Task<HttpClient>> httpClientFactory) : 
+        protected JsonApiClient(IHttpClientFactory httpClientFactory) : 
             base(httpClientFactory)
         { }
 
