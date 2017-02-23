@@ -12,7 +12,7 @@ namespace Ofl.Core.Net.Http
     {
         #region Constructor
 
-        protected ApiClient(Func<HttpMessageHandler, bool, CancellationToken, Task<HttpClient>> httpClientFactory)
+        protected ApiClient(IHttpClientFactory httpClientFactory httpClientFactory)
         {
             // Validate parameters.
             if (httpClientFactory == null) throw new ArgumentNullException(nameof(httpClientFactory));
