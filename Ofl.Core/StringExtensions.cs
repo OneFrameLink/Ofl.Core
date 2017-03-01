@@ -219,6 +219,15 @@ namespace Ofl.Core
             return firstCharacter + value.Substring(1);
         }
 
+        public static string CoalesceNullOrWhitespace(params string[] strings)
+        {
+            // Validate parameters.
+            if (strings == null) throw new ArgumentNullException(nameof(strings));
+
+            // Call the overload.
+            return strings.CoalesceNullOrWhitespace();
+        }
+
         public static string CoalesceNullOrWhitespace(this IEnumerable<string> strings)
         {
             // Validate parameters.
