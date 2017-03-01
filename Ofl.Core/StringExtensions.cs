@@ -218,5 +218,14 @@ namespace Ofl.Core
             // Append the rest.
             return firstCharacter + value.Substring(1);
         }
+
+        public static string CoalesceNullOrWhitespace(this IEnumerable<string> strings)
+        {
+            // Validate parameters.
+            if (strings == null) throw new ArgumentNullException(nameof(strings));
+
+            // Return the first non null or non whitespace string.
+            return strings.FirstOrDefault(s => !string.IsNullOrWhiteSpace(s));
+        }
     }
 }
