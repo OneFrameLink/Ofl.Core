@@ -3,7 +3,7 @@
 # NOTE: UPDATE THIS TO UPDATE ASSEMBLY AND NUGET 
 # VERSIONS!!!!!!!!
 #--------------------------------------------------
-version: '1.4.{build}'
+version: '1.5.{build}'
 
 #--------------------------------------------------
 # Branch whitelist
