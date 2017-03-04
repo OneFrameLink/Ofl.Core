@@ -81,6 +81,8 @@
     <Compile Include="Net\Http\AsyncEnumeratorExtensions.cs" />
     <Compile Include="Net\Http\Headers\HttpHeadersExtensions.cs" />
     <Compile Include="Net\Http\HttpClientExtensions.cs" />
+    <Compile Include="Net\Http\HttpClientFactory.cs" />
+    <Compile Include="Net\Http\HttpClientFactoryExtensions.cs" />
     <Compile Include="Net\Http\HttpClientHandlerExtensions.cs" />
     <Compile Include="Net\Http\HttpMessageHandlerExtensions.cs" />
     <Compile Include="Net\Http\HttpRequestMessageExtensions.cs" />

@@ -16,7 +16,7 @@ namespace Ofl.Core.Threading.Tasks
     {
         #region Static, read-only state.
 
-        /// <summary>A <see cref="Task"/> that is always in the completed state.</summary>
+        [Obsolete]
         public static readonly Task CompletedTask = Task.FromResult((object) null);
 
         #endregion

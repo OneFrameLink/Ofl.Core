@@ -12,7 +12,7 @@ namespace Ofl.Core.Net.Http
     {
         #region Constructor
 
-        protected ApiClient(Func<HttpMessageHandler, bool, CancellationToken, Task<HttpClient>> httpClientFactory)
+        protected ApiClient(IHttpClientFactory httpClientFactory)
         {
             // Validate parameters.
             if (httpClientFactory == null) throw new ArgumentNullException(nameof(httpClientFactory));
@@ -25,7 +25,7 @@ namespace Ofl.Core.Net.Http
 
         #region Instance, read-only state.
 
-        private readonly Func<HttpMessageHandler, bool, CancellationToken, Task<HttpClient>> _httpClientFactory;
+        private readonly IHttpClientFactory _httpClientFactory;
 
         #endregion
 
@@ -52,7 +52,7 @@ namespace Ofl.Core.Net.Http
             if (httpMessageHandler == null) throw new ArgumentNullException(nameof(httpMessageHandler));
 
             // Call the func.
-            return _httpClientFactory(httpMessageHandler, disposeHandler, cancellationToken);
+            return _httpClientFactory.CreateAsync(httpMessageHandler, disposeHandler, cancellationToken);
         }
 
         protected virtual Task<string> FormatUrlAsync(string url, CancellationToken cancellationToken)
