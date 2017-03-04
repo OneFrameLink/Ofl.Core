@@ -38,16 +38,11 @@ namespace Ofl.Core.Serialization.Newtonsoft.Json
 
             // If the value is null, then write null.
             if (dateTimeOffset == null)
-            {
                 // Write null.
                 writer.WriteNull();
-            }
             else
-            {
                 // Write the value.
-                // TODO: Convert to DateTimeOffset.ToUnixTimeSeconds.
                 writer.WriteValue(dateTimeOffset.Value.ToUnixTimeSeconds());
-            }
         }
 
         public override bool CanWrite => true;
@@ -81,8 +76,7 @@ namespace Ofl.Core.Serialization.Newtonsoft.Json
             var seconds = Convert.ToInt64(value, CultureInfo.InvariantCulture);
 
             // Return the date time offset.
-            // TODO: Convert to DateTimeOffset.FromUnixTimeSeconds in .NET 4.6
-            DateTimeOffset returnValue = DateTimeOffsetExtensions.FromUnixTimeSeconds(seconds);
+            DateTimeOffset returnValue = DateTimeOffset.FromUnixTimeSeconds(seconds);
 
             // If the type is nullable, return nullable.
             if (objectType == typeof (DateTimeOffset?)) return (DateTimeOffset?) returnValue;

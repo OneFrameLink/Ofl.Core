@@ -56,18 +56,7 @@ namespace Ofl.Core
 
         #region Extension methods.
 
-        //////////////////////////////////////////////////
-        /// 
-        /// <author>Nicholas Paldino</author>
-        /// <created>2013-10-22</created>
-        /// <summary>Converts a <see cref="DateTimeOffset"/>
-        /// to a Unix timestamp.</summary>
-        /// <param name="dateTimeOffset">The <see cref="DateTimeOffset"/>
-        /// that is to be converted.</param>
-        /// <returns>The Unix timestamp.</returns>
-        /// 
-        //////////////////////////////////////////////////
-        // TODO: Replace with DateTimeOffset.ToUnixTimeSeconds in .NET 4.6
+        [Obsolete]
         public static long ToUnixTimeSeconds(this DateTimeOffset dateTimeOffset)
         {
             // Truncate sub-second precision before offsetting by the Unix Epoch to avoid
@@ -90,7 +79,7 @@ namespace Ofl.Core
             return seconds - UnixEpochSeconds;
         }
 
-        // TODO: Replace with DateTimeOffset.FromUnixTimeSeconds in .NET 4.6
+        [Obsolete]
         public static DateTimeOffset FromUnixTimeSeconds(long seconds)
         {
             // Validate parameters.
