@@ -39,7 +39,7 @@
     <!-- A reference to the entire .NET Framework is automatically included -->
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="..\_shared\GlobalAssemblyInfo.cs">
+    <Compile Include="..\..\_shared\GlobalAssemblyInfo.cs">
       <Link>[common]\GlobalAssemblyInfo.cs</Link>
     </Compile>
     <Compile Include="BooleanExtensions.cs" />
@@ -55,6 +55,7 @@
     <Compile Include="Collections\Generic\ListExtensions.cs" />
     <Compile Include="Collections\Generic\ReadOnlyCollectionExtensions.cs" />
     <Compile Include="Collections\Generic\ReadOnlyDictionaryExtensions.cs" />
+    <Compile Include="Collections\Generic\ReadOnlyListExtensions.cs" />
     <Compile Include="Collections\Generic\SetAddRangeResult.cs" />
     <Compile Include="Collections\Generic\SetExtensions.cs" />
     <Compile Include="CoreExtensions.cs" />
