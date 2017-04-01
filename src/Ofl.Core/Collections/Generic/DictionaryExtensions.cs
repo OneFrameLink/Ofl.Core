@@ -116,27 +116,6 @@ namespace Ofl.Core.Collections.Generic
             return false;
         }
 
-        public static bool TryGetValueCascading<TKey, TValue>(this IReadOnlyDictionary<TKey, TValue> dictionary,
-            TKey key, out TValue value, params IReadOnlyDictionary<TKey, TValue>[] fallbacks)
-        {
-            // Validate parameters.
-            if (dictionary == null) throw new ArgumentNullException(nameof(dictionary));
-            if (fallbacks == null) throw new ArgumentNullException(nameof(fallbacks));
-
-            // Set output.
-            value = default(TValue);
-
-            // Cycle through the dictionaries.
-            foreach (IReadOnlyDictionary<TKey, TValue> d in EnumerableExtensions.From(dictionary).Concat(fallbacks))
-            {
-                // Try and get the value, if found, return true.
-                if (d.TryGetValue(key, out value)) return true;
-            }
-
-            // Not found.
-            return false;
-        }
-
         public static TValue? TryGetValueCascading<TKey, TValue>(this IDictionary<TKey, TValue> dictionary,
             TKey key, params IDictionary<TKey, TValue>[] fallbacks)
             where TValue : struct
@@ -159,42 +138,18 @@ namespace Ofl.Core.Collections.Generic
             return null;
         }
 
-        public static TValue? TryGetValueCascading<TKey, TValue>(this IReadOnlyDictionary<TKey, TValue> dictionary,
-            TKey key, params IReadOnlyDictionary<TKey, TValue>[] fallbacks)
-            where TValue : struct
+        public static TValue GetValueOrDefault<TKey, TValue>(this IDictionary<TKey, TValue> dictionary, TKey key)
         {
             // Validate parameters.
             if (dictionary == null) throw new ArgumentNullException(nameof(dictionary));
-            if (fallbacks == null) throw new ArgumentNullException(nameof(fallbacks));
-
-            // The value.
-            TValue value = default(TValue);
-
-            // Cycle through the dictionaries.
-            if (EnumerableExtensions.From(dictionary).Concat(fallbacks).Any(d => d.TryGetValue(key, out value)))
-            {
-                // Return the value.
-                return value;
-            }
-
-            // Not found.
-            return null;
-        }
-
-        public static TValue? TryGetValue<TKey, TValue>(IReadOnlyDictionary<TKey, TValue> dictionary, TKey key)
-            where TValue : struct
-        {
-            // Validate parameters.
-            if (dictionary == null) throw new ArgumentNullException(nameof(dictionary));
+            if (key == null) throw new ArgumentNullException(nameof(key));
 
             // The value.
             TValue value;
 
-            // If the value is not found, return null.
-            if (!dictionary.TryGetValue(key, out value)) return null;
-
-            // Return the value.
-            return value;
+            // Get the value, if it exists, return, otherwise, return
+            // default.
+            return dictionary.TryGetValue(key, out value) ? value : default(TValue);
         }
 
         public static ReadOnlyDictionary<TKey, TValue> WrapInReadOnlyDictionary<TKey, TValue>(
