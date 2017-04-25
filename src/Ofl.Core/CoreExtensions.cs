@@ -191,11 +191,8 @@ namespace Ofl.Core
             // Cycle through the source properties.  Copy to the destination.
             foreach (PropertyInfo sourceProperty in typeof(TSource).GetPropertiesWithPublicInstanceGetters())
             {
-                // The destination property.
-                PropertyInfo destinationProperty;
-
                 // If not found, then skip.
-                if (!destinationProperties.TryGetValue(sourceProperty.Name, out destinationProperty)) continue;
+                if (!destinationProperties.TryGetValue(sourceProperty.Name, out PropertyInfo destinationProperty)) continue;
 
                 // If the source type is not assignable to the destination type, continue.
                 if (!destinationProperty.PropertyType.GetTypeInfo().IsAssignableFrom(sourceProperty.PropertyType.GetTypeInfo()))

@@ -1,22 +1,16 @@
 #--------------------------------------------------
-# Version:
-# NOTE: UPDATE THIS TO UPDATE ASSEMBLY AND NUGET 
-# VERSIONS!!!!!!!!
-#--------------------------------------------------
-version: '1.8.{build}'
-
-#--------------------------------------------------
 # Build worker image (VM template)
-# TODO: Move everything to VS.NET 2017
 #--------------------------------------------------
-image: Visual Studio 2015
+image: Visual Studio 2017
 
 #--------------------------------------------------
 # Environment
 #--------------------------------------------------
 environment:
   GITHUB_PERSONAL_ACCESS_TOKEN:
-    secure: PNVFwcCuNr+X7SffsiwiVsa/JzVyZqwNJUbeve+Or/EjOwZxbd1CUC0K/5az9jsT
+    secure: PNVFwcCuNr+X7SffsiwiVsa/JzVyZqwNJUbeve+Or/EjOwZxbd1CUC0K/5az9jsT    
+  GIT_CONFIG_USER_EMAIL:
+    secure: yAZjzbVhtfeKof5pGJ/N65IjSffBIJoX5MZIpqbtHkc=
 
 #--------------------------------------------------
 # Branch whitelist
@@ -42,26 +36,33 @@ install:
 configuration: Release
 
 #--------------------------------------------------
-# Assembly version patching
-#-------------------------------------------------- 
-assembly_info:
-  patch: true
-  file: '**\GlobalAssemblyInfo.cs'
-  assembly_version: "{version}"
-  assembly_file_version: "{version}"
-  assembly_informational_version: "{version}"
-
-#--------------------------------------------------
 # Build hooks - before
 #--------------------------------------------------
 before_build:
-  - nuget restore -verbosity detailed
-  
+# Patch version in csproj
+  - ps: $temp_path = (Get-Item src\$env:APPVEYOR_PROJECT_NAME\$env:APPVEYOR_PROJECT_NAME.csproj).FullName
+  - ps: $temp_csproj = [xml](Get-Content $temp_path)
+  - ps: $temp_csproj.Project.PropertyGroup.Version = $temp_csproj.Project.PropertyGroup.Version -replace '\.[0-9]+$', ".$env:APPVEYOR_BUILD_NUMBER"
+  - ps: $temp_csproj.Save($temp_path)
+  - ps: $env:APPVEYOR_BUILD_VERSION = $temp_csproj.Project.PropertyGroup.Version
+  - ps: Write-Host "Build version set to - $env:APPVEYOR_BUILD_VERSION"
+# Restore
+  - dotnet restore
+    
+#--------------------------------------------------
+# Testing
+# TODO: Figure out how to work with just the assembly output.
+#--------------------------------------------------
+test_script:
+   - dotnet test test\%APPVEYOR_PROJECT_NAME%.Tests\%APPVEYOR_PROJECT_NAME%.Tests.csproj
+
 #--------------------------------------------------
 # Build hooks - after
 #--------------------------------------------------
 after_build:
-   - nuget pack src\%APPVEYOR_PROJECT_NAME%\%APPVEYOR_PROJECT_NAME%.csproj -verbosity detailed
+# NOTE: "dotnet pack" is not supported yet, as per
+# https://github.com/NuGet/Home/issues/4491
+   - msbuild /t:pack src\%APPVEYOR_PROJECT_NAME%\%APPVEYOR_PROJECT_NAME%.csproj
  
 #--------------------------------------------------
 # Build hooks - on_success
@@ -71,7 +72,7 @@ after_build:
 on_success:
   - git config --global credential.helper store
   - ps: Add-Content "$env:USERPROFILE\.git-credentials" "https://$($env:GITHUB_PERSONAL_ACCESS_TOKEN):x-oauth-basic@github.com`n"
-  - git config --global user.email "admin@oneframelink.com"
+  - git config --global user.email "%GIT_CONFIG_USER_EMAIL%"
   - git config --global user.name "One Frame Link"
   - git tag "v%APPVEYOR_BUILD_VERSION%"
   - git push origin "v%APPVEYOR_BUILD_VERSION%"

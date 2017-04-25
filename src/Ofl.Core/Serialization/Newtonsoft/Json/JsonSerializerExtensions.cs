@@ -13,9 +13,6 @@ namespace Ofl.Core.Serialization.Newtonsoft.Json
             if (serializer == null) throw new ArgumentNullException(nameof(serializer));
             if (request == null) throw new ArgumentNullException(nameof(request));
 
-            // The json.
-            string json;
-
             // Create a StringWriter.
             using (var stringWriter = new StringWriter(CultureInfo.InvariantCulture))
             // Now a json writer.
@@ -28,11 +25,8 @@ namespace Ofl.Core.Serialization.Newtonsoft.Json
                 jsonWriter.Flush();
 
                 // Write the json.
-                json = stringWriter.ToString();
+                return stringWriter.ToString();
             }
-
-            // Return the json.
-            return json;
         }
     }
 }

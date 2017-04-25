@@ -25,5 +25,19 @@ namespace Ofl.Core.Reflection
             // Call the overload with T.
             return typeof(T).GetPropertiesWithPublicInstanceGetters();
         }
+
+        public static bool IsAssignableFrom(this Type to, Type from)
+        {
+            // Validate parameters.
+            if (from == null) throw new ArgumentNullException(nameof(from));
+            if (to == null) throw new ArgumentNullException(nameof(to));
+
+            // Get the type infos.
+            TypeInfo fromTypeInfo = from.GetTypeInfo();
+            TypeInfo toTypeInfo = to.GetTypeInfo();
+
+            // Call.
+            return toTypeInfo.IsAssignableFrom(fromTypeInfo);
+        }
     }
 }
