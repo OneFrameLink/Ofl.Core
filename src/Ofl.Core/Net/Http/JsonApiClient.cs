@@ -19,7 +19,7 @@ namespace Ofl.Core.Net.Http
 
         #region Overrides.
 
-        private static readonly JsonSerializerSettings JsonSerializerSettings = new JsonSerializerSettings {
+        public static readonly JsonSerializerSettings DefaultJsonSerializerSettings = new JsonSerializerSettings {
             // Camel case.
             ContractResolver = new CamelCasePropertyNamesContractResolver(),
 
@@ -30,7 +30,7 @@ namespace Ofl.Core.Net.Http
         protected virtual Task<JsonSerializerSettings> CreateJsonSerializerSettingsAsync(CancellationToken cancellationToken)
         {
             // Camel cased by default.
-            return Task.FromResult(JsonSerializerSettings);
+            return Task.FromResult(DefaultJsonSerializerSettings);
         }
 
         protected override async Task<HttpResponseMessage> ProcessHttpResponseMessageAsync(HttpResponseMessage httpResponseMessage, 
