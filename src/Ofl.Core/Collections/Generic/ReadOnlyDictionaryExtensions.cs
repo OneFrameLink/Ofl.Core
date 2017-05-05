@@ -18,18 +18,26 @@ namespace Ofl.Core.Collections.Generic
             // Create the wrapper, return.
             return new CastingReadOnlyDictionaryWrapper<TFromKey, TFromValue, TToKey, TToValue>(source);
         }
+
+        public static TValue GetValueOrDefault<TKey, TValue>(this IReadOnlyDictionary<TKey, TValue> dictionary,
+            TKey key, TValue defaultValue)
+        {
+            // Validate parameters.
+            if (dictionary == null) throw new ArgumentNullException(nameof(dictionary));
+            if (key == null) throw new ArgumentNullException(nameof(key));
+
+            // Get the value, if it fails, return default.
+            return dictionary.TryGetValue(key, out TValue value) ? value : defaultValue;
+        }
+
         public static TValue GetValueOrDefault<TKey, TValue>(this IReadOnlyDictionary<TKey, TValue> dictionary, TKey key)
         {
             // Validate parameters.
             if (dictionary == null) throw new ArgumentNullException(nameof(dictionary));
             if (key == null) throw new ArgumentNullException(nameof(key));
 
-            // The value.
-            TValue value;
-
-            // Get the value, if it exists, return, otherwise, return
-            // default.
-            return dictionary.TryGetValue(key, out value) ? value : default(TValue);
+            // Call the overload.
+            return dictionary.GetValueOrDefault(key, default(TValue));
         }
         public static TValue? TryGetValueCascading<TKey, TValue>(this IReadOnlyDictionary<TKey, TValue> dictionary,
             TKey key, params IReadOnlyDictionary<TKey, TValue>[] fallbacks)
