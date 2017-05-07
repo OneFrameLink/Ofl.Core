@@ -157,7 +157,7 @@ namespace Ofl.Core
                 camelCaseResolver);
         }
 
-            public static string ToCamelCase(this string value, ISet<char> ignoredPrefixCharacters,
+        public static string ToCamelCase(this string value, ISet<char> ignoredPrefixCharacters,
             Func<string, string> camelCaseResolver)
         {
             // Validate parameters.

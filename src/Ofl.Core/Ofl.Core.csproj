@@ -2,19 +2,14 @@
 
   <PropertyGroup>
     <Description>Core utility library for the One Frame Link project.</Description>
-    <Authors>One Frame Link</Authors>
     <TargetFramework>netstandard1.3</TargetFramework>
     <AssemblyName>Ofl.Core</AssemblyName>
     <PackageId>Ofl.Core</PackageId>
-    <PackageIconUrl>https://raw.githubusercontent.com/OneFrameLink/Ofl._Shared/master/OneFrameLink_225x225.png</PackageIconUrl>
     <PackageProjectUrl>https://github.com/OneFrameLink/Ofl.Core</PackageProjectUrl>
-    <PackageLicenseUrl>https://raw.githubusercontent.com/OneFrameLink/Ofl._Shared/master/LICENSE.md</PackageLicenseUrl>
-    <PackageRequireLicenseAcceptance>true</PackageRequireLicenseAcceptance>
-    <RepositoryType>git</RepositoryType>
     <RepositoryUrl>https://github.com/OneFrameLink/Ofl.Core.git</RepositoryUrl>
     <NetStandardImplicitPackageVersion>1.6.0</NetStandardImplicitPackageVersion>
     <PackageTags>utilities</PackageTags>
-    <Version>2.0.0</Version>
+    <Version>2.1.0</Version>
   </PropertyGroup>
 
   <ItemGroup>
@@ -23,6 +18,7 @@
     <PackageReference Include="Newtonsoft.Json" Version="10.0.2" />
     <PackageReference Include="Nito.AsyncEx.Context" Version="1.1.0" />
     <PackageReference Include="Nito.AsyncEx.Coordination" Version="1.0.2" />
+    <PackageReference Include="NodaTime" Version="2.0.1" />
     <PackageReference Include="Ofl.Core.Contracts" Version="1.0.3" />
     <PackageReference Include="System.Interactive.Async" Version="3.1.1" />
     <PackageReference Include="System.Reactive.Core" Version="3.1.1" />
@@ -31,6 +27,10 @@
 
   <ItemGroup>
     <Folder Include="Properties\" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Include="Linq\EnumerableExtensions.Coalesce.cs" />
   </ItemGroup>
 
 </Project>

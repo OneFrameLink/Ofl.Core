@@ -14,7 +14,7 @@ namespace Ofl.Core.Linq
     /// <summary>Contains extensions for LINQ operations.</summary>
     ///
     //////////////////////////////////////////////////
-    public static class EnumerableExtensions
+    public static partial class EnumerableExtensions
     {
         #region WrapWithList
 
