@@ -6,12 +6,12 @@ using Xunit;
 
 namespace Ofl.Core.Tests
 {
-    public static class DateTimeOffsetTests
+    public static class DateTimeExtensionsTests
     {
         [Theory]
         [InlineData("2017-05-06 13:00:00", "Asia/Seoul", "09:00")]
         [InlineData("2017-05-06 22:30:00", "Asia/Seoul", "09:00")]
-        public static void Test_SpecifyDateTimeZone(string valueString, string dateTimeZoneId, string offsetValue)
+        public static void Test_ApplyDateTimeZone(string valueString, string dateTimeZoneId, string offsetValue)
         {
             // Validate parameters.
             if (string.IsNullOrWhiteSpace(valueString)) throw new ArgumentNullException(nameof(valueString));
@@ -41,7 +41,7 @@ namespace Ofl.Core.Tests
                 Assert.Equal(value.Ticks, originalValue.Ticks);
 
                 // Convert.
-                DateTimeOffset actual = value.SpecifyDateTimeZone(dateTimeZone);
+                DateTimeOffset actual = value.ApplyDateTimeZone(dateTimeZone);
 
                 // Compare components.
                 Assert.Equal(actual.Year, value.Year);

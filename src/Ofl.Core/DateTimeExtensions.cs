@@ -6,7 +6,7 @@ namespace Ofl.Core
 {
     public static class DateTimeExtensions
     {
-        public static DateTimeOffset SpecifyDateTimeZone(this DateTime dateTime, DateTimeZone dateTimeZone)
+        public static DateTimeOffset ApplyDateTimeZone(this DateTime dateTime, DateTimeZone dateTimeZone)
         {
             // Validate parameters.
             if (dateTimeZone == null) throw new ArgumentNullException(nameof(dateTimeZone));
