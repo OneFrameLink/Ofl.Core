@@ -14,7 +14,7 @@ namespace Ofl.Core.Linq
     /// <summary>Contains extensions for LINQ operations.</summary>
     ///
     //////////////////////////////////////////////////
-    public static class EnumerableExtensions
+    public static partial class EnumerableExtensions
     {
         #region WrapWithList
 
@@ -863,56 +863,6 @@ namespace Ofl.Core.Linq
             // Create and return.
             return new ReadOnlyDictionary<TKey, TValue>(source.ToDictionary(
                 p => p.Key, p => p.Value, comparer));
-        }
-
-        public static IReadOnlyDictionary<TKey, TSource> ToReadOnlyDictionary<TSource, TKey>(
-            this IEnumerable<TSource> source, Func<TSource, TKey> keySelector)
-        {
-            // Validate parameters.
-            if (source == null) throw new ArgumentNullException(nameof(source));
-            if (keySelector == null) throw new ArgumentNullException(nameof(keySelector));
-
-            // Call the overload.
-            return source.ToReadOnlyDictionary(keySelector, EqualityComparer<TKey>.Default);
-        }
-
-        public static IReadOnlyDictionary<TKey, TSource> ToReadOnlyDictionary<TSource, TKey>(
-            this IEnumerable<TSource> source, Func<TSource, TKey> keySelector, IEqualityComparer<TKey> comparer)
-        {
-            // Validate parameters.
-            if (source == null) throw new ArgumentNullException(nameof(source));
-            if (keySelector == null) throw new ArgumentNullException(nameof(keySelector));
-            if (comparer == null) throw new ArgumentNullException(nameof(comparer));
-
-            // Call the overload.
-            return source.ToReadOnlyDictionary(keySelector, t => t, comparer);
-        }
-
-        public static IReadOnlyDictionary<TKey, TValue> ToReadOnlyDictionary<TSource, TKey, TValue>(
-            this IEnumerable<TSource> source, Func<TSource, TKey> keySelector, Func<TSource, TValue> elementSelector)
-        {
-            // Validate parameters.
-            if (source == null) throw new ArgumentNullException(nameof(source));
-            if (keySelector == null) throw new ArgumentNullException(nameof(keySelector));
-            if (elementSelector == null) throw new ArgumentNullException(nameof(elementSelector));
-
-            // Call the overload.
-            return source.ToReadOnlyDictionary(keySelector, elementSelector, EqualityComparer<TKey>.Default);
-
-        }
-
-        public static IReadOnlyDictionary<TKey, TValue> ToReadOnlyDictionary<TSource, TKey, TValue>(
-            this IEnumerable<TSource> source,
-            Func<TSource, TKey> keySelector, Func<TSource, TValue> elementSelector, IEqualityComparer<TKey> comparer)
-        {
-            // Validate parameters.
-            if (source == null) throw new ArgumentNullException(nameof(source));
-            if (keySelector == null) throw new ArgumentNullException(nameof(keySelector));
-            if (elementSelector == null) throw new ArgumentNullException(nameof(elementSelector));
-            if (comparer == null) throw new ArgumentNullException(nameof(comparer));
-
-            // Create and return.
-            return new ReadOnlyDictionary<TKey, TValue>(source.ToDictionary(keySelector, elementSelector, comparer));
         }
 
         public static IReadOnlyCollection<T> EmptyReadOnlyCollection<T>()
