@@ -225,6 +225,7 @@ namespace Ofl.Core
             return GetEnumFields(typeof(T));
         }
 
+
         //////////////////////////////////////////////////
         ///
         /// <author>Nicholas Paldino</author>
@@ -250,6 +251,22 @@ namespace Ofl.Core
             // Note: Used to be 
             // GetFields(BindingFlags.Static | BindingFlags.Public | BindingFlags.NonPublic);
             return type.GetTypeInfo().DeclaredFields.Where(f => f.IsStatic);
+        }
+
+        public static IEnumerable<object> GetEnumValues(Type type)
+        {
+            // Validate parameters.
+            if (type == null) throw new ArgumentNullException(nameof(type));
+
+            // Get the fields, get the value for each field.
+            return GetEnumFields(type).Select(f => f.GetValue(null));
+        }
+
+        public static IEnumerable<T> GetEnumValues<T>() where T : struct
+        {
+            // Call the overload, cast values to
+            // T.
+            return GetEnumValues(typeof(T)).Cast<T>();
         }
 
 
