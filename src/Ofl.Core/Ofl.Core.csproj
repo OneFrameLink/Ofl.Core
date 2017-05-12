@@ -8,7 +8,7 @@
     <PackageProjectUrl>https://github.com/OneFrameLink/Ofl.Core</PackageProjectUrl>
     <RepositoryUrl>https://github.com/OneFrameLink/Ofl.Core.git</RepositoryUrl>
     <PackageTags>utilities</PackageTags>
-    <Version>2.3.0</Version>
+    <Version>2.4.0</Version>
   </PropertyGroup>
 
   <ItemGroup>
@@ -17,7 +17,7 @@
     <PackageReference Include="Nito.AsyncEx.Context" Version="1.1.0" />
     <PackageReference Include="Nito.AsyncEx.Coordination" Version="1.0.2" />
     <PackageReference Include="NodaTime" Version="2.0.1" />
-    <PackageReference Include="Ofl.Core.Contracts" Version="1.0.4" />
+    <PackageReference Include="Ofl.Core.Abstractions" Version="1.0.4" />
     <PackageReference Include="System.Interactive.Async" Version="3.1.1" />
     <PackageReference Include="System.Reactive.Core" Version="3.1.1" />
     <PackageReference Include="System.ValueTuple" Version="4.3.1" />
