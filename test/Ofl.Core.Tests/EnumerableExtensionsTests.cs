@@ -6,7 +6,7 @@ using Xunit;
 
 namespace Ofl.Core.Tests
 {
-    public class EnumerableExtensionsTests
+    public partial class EnumerableExtensionsTests
     {
         [Theory]
         [InlineData(0)]
