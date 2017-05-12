@@ -8,7 +8,7 @@
     <PackageProjectUrl>https://github.com/OneFrameLink/Ofl.Core</PackageProjectUrl>
     <RepositoryUrl>https://github.com/OneFrameLink/Ofl.Core.git</RepositoryUrl>
     <PackageTags>utilities</PackageTags>
-    <Version>2.2.0</Version>
+    <Version>2.3.0</Version>
   </PropertyGroup>
 
   <ItemGroup>
