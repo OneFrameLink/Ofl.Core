@@ -51,10 +51,7 @@ namespace Ofl.Core.Reactive
             : this(observations)
         {
             // Validate parameters.
-            if (exception == null) throw new ArgumentNullException(nameof(exception));
-
-            // Assign values.
-            Exception = exception;
+            Exception = exception ?? throw new ArgumentNullException(nameof(exception));
         }
 
         //////////////////////////////////////////////////

@@ -4,13 +4,12 @@ using System.Globalization;
 using System.Linq;
 using System.Linq.Expressions;
 using System.Reflection;
-using Ofl.Core.Linq;
 
 namespace Ofl.Core.Reflection
 {
     public static class PropertyInfoExtensions
     {
-        public static IReadOnlyCollection<PropertyInfo> Remove<T, TResult>(this IReadOnlyCollection<PropertyInfo> properties,
+        public static IEnumerable<PropertyInfo> Remove<T, TResult>(this IEnumerable<PropertyInfo> properties,
             T t, Expression<Func<T, TResult>> propertyToRemove)
         {
             // Validate parameters.
@@ -42,7 +41,7 @@ namespace Ofl.Core.Reflection
                     "Expresion \"{0}\" refers to a property that is not from type {1}.", propertyToRemove, type));
 
             // Remove the property info.
-            return properties.Where(p => p.Name != propInfo.Name).ToReadOnlyCollection();
+            return properties.Where(p => p.Name != propInfo.Name);
         }
     }
 }
