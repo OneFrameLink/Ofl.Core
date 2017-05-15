@@ -6,7 +6,6 @@ using System.Linq;
 using System.Linq.Expressions;
 using System.Reflection;
 using Ofl.Core.Linq;
-using Ofl.Core.Reflection;
 
 namespace Ofl.Core
 {
@@ -19,85 +18,6 @@ namespace Ofl.Core
     //////////////////////////////////////////////////
     public static class CoreExtensions
     {
-        #region IsNull and helpers.
-
-        //////////////////////////////////////////////////
-        ///
-        /// <author>Nicholas Paldino</author>
-        /// <created>2012-09-01</created>
-        /// <summary>A helper class which contains the implementation
-        /// for the <see cref="CoreExtensions.IsNull{T}"/>
-        /// method, it performs the check in the constructor and
-        /// then creates a predicate.</summary>
-        /// <typeparam name="T">The type of the instance
-        /// that null is checked for.</typeparam>
-        ///
-        //////////////////////////////////////////////////
-        private static class InherentlyNullableIsNullHelper<T>
-        {
-            /// <summary>The <see cref="Predicate{T}"/>
-            /// that indicates whether an instance
-            /// of <typeparamref name="T"/> is null
-            /// or not, without boxing.</summary>
-            internal static readonly Predicate<T> IsNullImplementation = CreateIsNullImplementation();
-
-            //////////////////////////////////////////////////
-            ///
-            /// <author>Nicholas Paldino</author>
-            /// <created>2012-09-01</created>
-            /// <summary>Creates the <see cref="Predicate{T}"/>
-            /// that determines if an instance of <typeparamref name="T"/>
-            /// is null or not.</summary>
-            /// <returns>A <see cref="Predicate{T}"/> that will
-            /// evaluate an instance of <typeparamref name="T"/>
-            /// and return true if null, false otherwise.</returns>
-            ///
-            //////////////////////////////////////////////////
-            private static Predicate<T> CreateIsNullImplementation()
-            {
-                // If the default of the type is not null then
-                // return false all the time.
-// ReSharper disable RedundantCast
-                if ((object) default(T) != null) return item => false;
-// ReSharper restore RedundantCast
-
-                // The type of T.
-                Type type = typeof(T);
-
-                // Create the delegate here.
-                ParameterExpression t = Expression.Parameter(type, "t");
-
-                // Compare with null.
-                BinaryExpression comparison = Expression.Equal(t, Expression.Convert(Expression.Constant(null, type), type), false, null);
-
-                // Create the lambda, compile and return.
-                return Expression.Lambda<Predicate<T>>(comparison, t).Compile();
-            }
-        }
-
-        //////////////////////////////////////////////////
-        ///
-        /// <author>Nicholas Paldino</author>
-        /// <created>2012-09-01</created>
-        /// <summary>Determines if an instance of <typeparamref name="T"/>
-        /// is null or not.</summary>
-        /// <remarks>This is done without casing <paramref name="value"/>
-        /// to an object for null comparison.  That leads to a lot
-        /// of boxing in the case of value types, which there's no
-        /// need for.</remarks>
-        /// <param name="value">The instance of <typeparamref name="T"/>
-        /// to check for null.</param>
-        /// <typeparam name="T">The type of <paramref name="value"/>.</typeparam>
-        /// <returns>True if <paramref name="value"/> is null, false otherwise.</returns>
-        ///
-        //////////////////////////////////////////////////
-        // TODO: What to do with INullable implementations?
-        public static bool IsNull<T>(T value)
-        {
-            // Call the helper.
-            return InherentlyNullableIsNullHelper<T>.IsNullImplementation(value);
-        }
-
         #region CopyFields
 
         public static T CopyFields<T>(T instance)
@@ -161,7 +81,6 @@ namespace Ofl.Core
 
         #endregion
 
-        #endregion
 
         #region Copy
 
@@ -169,7 +88,7 @@ namespace Ofl.Core
             where TDestination : new()
         {
             // Validate parameters.
-            if (IsNull(source)) throw new ArgumentNullException(nameof(source));
+            if (source == null) throw new ArgumentNullException(nameof(source));
 
             // Call the overload.
             return CopySharedProperties(source, new TDestination());
@@ -178,8 +97,8 @@ namespace Ofl.Core
         public static TDestination CopySharedProperties<TSource, TDestination>(TSource source, TDestination destination)
         {
             // Validate parameters.
-            if (IsNull(source)) throw new ArgumentNullException(nameof(source));
-            if (IsNull(destination)) throw new ArgumentNullException(nameof(destination));
+            if (source == null) throw new ArgumentNullException(nameof(source));
+            if (destination == null) throw new ArgumentNullException(nameof(destination));
 
             // Map the destination properties.
             // TODO: Generate compiled code, cache.
