@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
-using Ofl.Core.Linq;
 
 namespace Ofl.Core
 {
@@ -9,19 +8,17 @@ namespace Ofl.Core
     {
         #region Constructor
 
-        public SlidingWindowMask(ICollection<T> mask) : this(mask, EqualityComparer<T>.Default)
+        public SlidingWindowMask(IEnumerable<T> mask) : this(mask, EqualityComparer<T>.Default)
         { }
 
-        public SlidingWindowMask(ICollection<T> mask, IEqualityComparer<T> equalityComparer)
+        public SlidingWindowMask(IEnumerable<T> mask, IEqualityComparer<T> equalityComparer)
         {
             // Validate parameters.
-            if (mask == null) throw new ArgumentNullException(nameof(mask));
-            if (equalityComparer == null) throw new ArgumentNullException(nameof(equalityComparer));
+            _mask = mask?.ToReadOnlyCollection() ?? throw new ArgumentNullException(nameof(mask));
+            _equalityComparer = equalityComparer ?? throw new ArgumentNullException(nameof(equalityComparer));
 
             // Assign values.
-            _mask = mask.ToReadOnlyCollection();
             _windows = new BitArray(_mask.Count);
-            _equalityComparer = equalityComparer;
         }
 
         #endregion

@@ -28,8 +28,4 @@
     <Folder Include="Properties\" />
   </ItemGroup>
 
-  <ItemGroup>
-    <None Include="Linq\EnumerableExtensions.Coalesce.cs" />
-  </ItemGroup>
-
 </Project>

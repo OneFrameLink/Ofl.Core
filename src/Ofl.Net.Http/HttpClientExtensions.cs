@@ -1,9 +1,12 @@
 ﻿using System;
 using System.IO;
 using System.Net.Http;
+using System.Reactive.Disposables;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
+using Newtonsoft.Json;
+using Ofl.IO;
 
 namespace Ofl.Net.Http
 {
@@ -78,7 +81,7 @@ namespace Ofl.Net.Http
                 compositeDisposableCopy = null;
 
                 // Return the stream.
-                return new StreamWithState<object>(stream, compositeDisposable);
+                return new StreamWithState<IDisposable>(stream, compositeDisposable);
             }
             catch
             {

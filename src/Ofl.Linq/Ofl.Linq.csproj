@@ -1,0 +1,12 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netstandard1.4</TargetFramework>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <None Include="EnumerableExtensions.Safeguard.cs" />
+    <None Include="EnumerableExtensions.ZipChecked.cs" />
+  </ItemGroup>
+
+</Project>

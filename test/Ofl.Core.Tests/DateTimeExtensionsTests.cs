@@ -1,7 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
+using System.Reflection;
 using NodaTime;
-using Ofl.Core.Linq;
 using Xunit;
 
 namespace Ofl.Core.Tests
@@ -18,10 +19,6 @@ namespace Ofl.Core.Tests
             if (string.IsNullOrWhiteSpace(dateTimeZoneId)) throw new ArgumentNullException(nameof(dateTimeZoneId));
             if (string.IsNullOrWhiteSpace(offsetValue)) throw new ArgumentNullException(nameof(offsetValue));
 
-            // Get the values.
-            IReadOnlyCollection<DateTimeKind> kinds = EnumExtensions.GetEnumValues<DateTimeKind>()
-                .ToReadOnlyCollection();
-
             // Convert the value.
             DateTime originalValue = DateTime.Parse(valueString);
 
@@ -30,6 +27,11 @@ namespace Ofl.Core.Tests
 
             // Get the date time zone.
             DateTimeZone dateTimeZone = DateTimeZoneProviders.Tzdb.GetZoneOrNull(dateTimeZoneId);
+
+            // Get the date time kinds.
+            IEnumerable<DateTimeKind> kinds = typeof(DateTimeKind).GetFields(BindingFlags.Static | BindingFlags.Public)
+                .Select(f => f.GetValue(null))
+                .Cast<DateTimeKind>();
 
             // Cycle through the kinds.
             foreach (DateTimeKind kind in kinds)

@@ -9,11 +9,11 @@ namespace Ofl.Core
     {
         #region General helpers.
 
-        public static IEnumerable<FieldInfo> EnumerateFields<T>() where T : struct =>
-            EnumerateFields(typeof(T));
+        public static IEnumerable<FieldInfo> GetFieldInfos<T>() where T : struct =>
+            GetFieldInfos(typeof(T));
 
 
-        public static IEnumerable<FieldInfo> EnumerateFields(Type type)
+        public static IEnumerable<FieldInfo> GetFieldInfos(Type type)
         {
             // Validate parameters.
             if (type == null) throw new ArgumentNullException(nameof(type));
@@ -27,17 +27,17 @@ namespace Ofl.Core
             return type.GetTypeInfo().DeclaredFields.Where(f => f.IsStatic);
         }
 
-        public static IEnumerable<KeyValuePair<FieldInfo, object>> EnumerateFieldsAndValues(Type type) =>
-            EnumerateFields(type).Select(f => new KeyValuePair<FieldInfo, object>(f, f.GetValue(null)));
+        public static IEnumerable<KeyValuePair<FieldInfo, object>> GetEnumerator(Type type) =>
+            GetFieldInfos(type).Select(f => new KeyValuePair<FieldInfo, object>(f, f.GetValue(null)));
 
-        public static IEnumerable<KeyValuePair<FieldInfo, T>> EnumerateFieldsAndValues<T>() where T : struct =>
-            EnumerateFieldsAndValues(typeof(T)).Select(p => new KeyValuePair<FieldInfo, T>(p.Key, (T) p.Value));
+        public static IEnumerable<KeyValuePair<FieldInfo, T>> GetEnumerator<T>() where T : struct =>
+            GetEnumerator(typeof(T)).Select(p => new KeyValuePair<FieldInfo, T>(p.Key, (T) p.Value));
 
-        public static IEnumerable<object> EnumerateValues(Type type) =>
-            EnumerateFieldsAndValues(type).Select(p => p.Value);
+        public static IEnumerable<object> GetValues(Type type) =>
+            GetEnumerator(type).Select(p => p.Value);
 
-        public static IEnumerable<T> EnumerateValues<T>() where T : struct =>
-            EnumerateValues(typeof(T)).Cast<T>();
+        public static IEnumerable<T> GetValues<T>() where T : struct =>
+            GetValues(typeof(T)).Cast<T>();
 
         #endregion
     }
