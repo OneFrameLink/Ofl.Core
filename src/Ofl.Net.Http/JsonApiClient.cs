@@ -4,6 +4,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Serialization;
+using Ofl.Threading.Tasks;
 
 namespace Ofl.Net.Http
 {
@@ -27,11 +28,10 @@ namespace Ofl.Net.Http
             NullValueHandling = NullValueHandling.Ignore
         };
 
-        protected virtual Task<JsonSerializerSettings> CreateJsonSerializerSettingsAsync(CancellationToken cancellationToken)
-        {
-            // Camel cased by default.
-            return Task.FromResult(DefaultJsonSerializerSettings);
-        }
+        private static readonly ValueTask<JsonSerializerSettings> JsonSerializerSettingsValueTask = ValueTaskExtensions.FromResult(DefaultJsonSerializerSettings);
+
+        protected virtual ValueTask<JsonSerializerSettings> CreateJsonSerializerSettingsAsync(CancellationToken cancellationToken) =>
+            JsonSerializerSettingsValueTask;
 
         protected override async Task<HttpResponseMessage> ProcessHttpResponseMessageAsync(HttpResponseMessage httpResponseMessage, 
             CancellationToken cancellationToken)

@@ -13,8 +13,12 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\Ofl.Collections\Ofl.Collections.csproj" />
+    <ProjectReference Include="..\Ofl.Core\Ofl.Core.csproj" />
     <ProjectReference Include="..\Ofl.IO\Ofl.IO.csproj" />
+    <ProjectReference Include="..\Ofl.Serialization.Json.Newtonsoft\Ofl.Serialization.Json.Newtonsoft.csproj" />
     <ProjectReference Include="..\Ofl.Text.RegularExpressions\Ofl.Text.RegularExpressions.csproj" />
+    <ProjectReference Include="..\Ofl.Threading.Tasks\Ofl.Threading.Tasks.csproj" />
   </ItemGroup>
 
 </Project>

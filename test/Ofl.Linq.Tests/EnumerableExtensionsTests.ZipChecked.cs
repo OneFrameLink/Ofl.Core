@@ -1,11 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using Ofl.Core.Linq;
-using Ofl.Linq;
 using Xunit;
 
-namespace Ofl.Core.Tests
+namespace Ofl.Linq.Tests
 {
     public partial class EnumerableExtensionsTests
     {

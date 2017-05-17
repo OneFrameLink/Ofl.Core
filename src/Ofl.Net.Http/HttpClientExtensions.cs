@@ -7,6 +7,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using Newtonsoft.Json;
 using Ofl.IO;
+using Ofl.Serialization.Json.Newtonsoft;
 
 namespace Ofl.Net.Http
 {

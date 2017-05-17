@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
+using System.Linq;
 
 namespace Ofl.Core
 {
@@ -14,10 +16,13 @@ namespace Ofl.Core
         public SlidingWindowMask(IEnumerable<T> mask, IEqualityComparer<T> equalityComparer)
         {
             // Validate parameters.
-            _mask = mask?.ToReadOnlyCollection() ?? throw new ArgumentNullException(nameof(mask));
+            if (mask == null) throw new ArgumentNullException(nameof(mask));
             _equalityComparer = equalityComparer ?? throw new ArgumentNullException(nameof(equalityComparer));
 
             // Assign values.
+            // NOTE: Would use ToReadOnlyCollection, but this
+            // doesn't reference Ofl.Collections.
+            _mask = new ReadOnlyCollection<T>(mask.ToList());
             _windows = new BitArray(_mask.Count);
         }
 

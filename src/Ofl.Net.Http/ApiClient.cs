@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Ofl.Threading.Tasks;
+using System;
 using System.Net.Http;
 using System.Threading;
 using System.Threading.Tasks;
@@ -15,10 +16,7 @@ namespace Ofl.Net.Http
         protected ApiClient(IHttpClientFactory httpClientFactory)
         {
             // Validate parameters.
-            if (httpClientFactory == null) throw new ArgumentNullException(nameof(httpClientFactory));
-
-            // Assign values.
-            _httpClientFactory = httpClientFactory;
+            _httpClientFactory = httpClientFactory ?? throw new ArgumentNullException(nameof(httpClientFactory));
         }
 
         #endregion
@@ -55,14 +53,15 @@ namespace Ofl.Net.Http
             return _httpClientFactory.CreateAsync(httpMessageHandler, disposeHandler, cancellationToken);
         }
 
-        protected virtual Task<string> FormatUrlAsync(string url, CancellationToken cancellationToken)
+        protected virtual ValueTask<string> FormatUrlAsync(string url, CancellationToken cancellationToken)
         {
             // Validate parameters.
             if (string.IsNullOrWhiteSpace(url)) throw new ArgumentNullException(nameof(url));
 
             // Just return the URL.
-            return Task.FromResult(url);
+            return ValueTaskExtensions.FromResult(url);
         }
+
         protected virtual Task<HttpResponseMessage> ProcessHttpResponseMessageAsync(
             HttpResponseMessage httpResponseMessage, CancellationToken cancellationToken)
         {
