@@ -1,6 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Diagnostics;
 using System.Linq.Expressions;
 using System.Reflection;
 
@@ -8,43 +6,6 @@ namespace Ofl.Linq.Expressions
 {
     public static class ExpressionExtensions
     {
-        public static IEnumerable<PropertyInfo> GetProperties<T>(params Expression<Func<T, object>>[] expressions) =>
-            expressions.GetProperties();
-
-        public static IEnumerable<PropertyInfo> GetProperties<T>(
-            this IEnumerable<Expression<Func<T, object>>> expressions)
-        {
-            // Validate parameters.
-            if (expressions == null) throw new ArgumentNullException(nameof(expressions));
-
-            // Call the private implementation.
-            return expressions.GetPropertiesImplementation();
-        }
-
-        private static IEnumerable<PropertyInfo> GetPropertiesImplementation<T>(
-            this IEnumerable<Expression<Func<T, object>>> expressions)
-        {
-            // Validate parameters.
-            Debug.Assert(expressions != null);
-
-            // Iterate.
-            foreach (Expression<Func<T, object>> expression in expressions)
-            {
-                // The expression is a lambda.
-                Debug.Assert(expression.NodeType == ExpressionType.Lambda);
-
-                // If the expression is convert, then get the body.
-                var memberExpression = (expression.Body.NodeType == ExpressionType.Convert ?
-                    ((UnaryExpression)expression.Body).Operand : expression.Body) as MemberExpression;
-
-                // PropertyInfo?
-                var propertyInfo = memberExpression?.Member as PropertyInfo;
-
-                // If not null, yield.
-                if (propertyInfo != null) yield return propertyInfo;
-            }
-        }
-
         public static Expression<Func<T, object>> CreateGetPropertyLambdaExpression<T>(this PropertyInfo propertyInfo)
         {
             // Validate parameters.
@@ -65,7 +26,7 @@ namespace Ofl.Linq.Expressions
             // Access the property.
             Expression propertyExpression = Expression.Property(parameterExpression, propertyInfo);
 
-            // Convert.
+            // Convert if the type of the property is not the type of the property info.
             Expression convertExpression = Expression.Convert(propertyExpression, typeof(TProperty));
 
             // Package in a lambda.
