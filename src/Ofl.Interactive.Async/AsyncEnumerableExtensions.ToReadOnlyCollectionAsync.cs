@@ -8,9 +8,9 @@ using Ofl.Collections.Generic;
 
 namespace Ofl.Interactive.Async
 {
-    public static class AsyncEnumerableExtentions
+    public static partial class AsyncEnumerableExtensions
     {
-        public static async Task<ReadOnlyCollection<T>> ToReadOnlyCollectionAsync<T>(this IAsyncEnumerable<T> source, 
+        public static async Task<ReadOnlyCollection<T>> ToReadOnlyCollectionAsync<T>(this IAsyncEnumerable<T> source,
             CancellationToken cancellationToken)
         {
             // Validate parameters.
