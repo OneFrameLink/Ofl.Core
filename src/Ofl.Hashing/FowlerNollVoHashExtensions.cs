@@ -88,7 +88,7 @@ namespace Ofl.Hashing
         /// <created>2012-08-22</created>
         /// <summary>Computes the 32-bit hash for a sequence of bytes.</summary>
         /// <param name="source">The sequence of bytes to hash.</param>
-        /// <returns>The 32-bit hash of the sequence of items that were passed in.</returns>
+        /// <returns>The 32-bit hash of the sequence of items that were passed in.</returns>C
         /// 
         //////////////////////////////////////////////////
         public static IEnumerable<byte> Compute32BitFnvHash(this IEnumerable<byte> source)
